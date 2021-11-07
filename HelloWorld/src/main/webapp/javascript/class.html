@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript/class.html</title>
+    <!-- <script src="class1.js"></script> -->
+    <style>
+        table{
+            border-collapse: collapse;
+            }
+        table, tr, td{
+            border: 1px solid black;
+            padding: 5px;
+        }
+        /* input[type='text']{
+            width: 350px;
+            margin-bottom: 5px;
+            padding: 10px;
+            font-size: 14px;
+        }
+        input[type='text']{
+            width: 350px;
+            margin-bottom: 5px;
+            padding: 10px;
+            font-size: 14px;
+        }
+         */
+    </style>
+</head>
+<body>
+    
+        학번: <input type="text" id="studentNo"><br>
+        이름: <input type="text" id="studentName"><br>
+        점수: <input type="number" id="score"><br>
+        학년: <input type="number" id="year"><br>
+        <button type="button" id="btn" onclick="addFnc()">추가</button><br>
+        <p></p>
+
+    <script>
+      function addFnc(){
+          var studentNo = document.getElementsByTagName('input')[0].value
+          studentNo = studentNo.split('');
+          var studentNo_empty = '';
+          for(i=0; i<studentNo.length; i++){
+              if(studentNo == ''){
+                studentNo_empty = '';
+              }else{
+                studentNo_empty += '<th>' + studentNo[i] + '</th>'
+              }
+          };
+          var studentName = document.getElementsByTagName('input')[1].value
+          studentName  = stdentName.split('');
+          var studentName_empty = '';
+          for(i = 0; i <stdentName.length; i++){
+              if(studentName == ''){
+                  studentName_empty = '';
+              }else{
+                  studentName_empty += '<td>' +studentName[i] + '</td>';
+              }
+          };
+          var score = document.getElementsByTagName('input')[2].value
+          score  = score.split('');
+          var score_empty = '';
+          for(i = 0; i <score.length; i++){
+              if(score == ''){
+                  score_empty = '';
+              }else{
+                  score_empty += '<td>' +score[i] + '</td>';
+              }
+          };
+          var year = document.getElementsByTagName('input')[3].value
+          year  = year.split('');
+          var year_empty = '';
+          for(i = 0; i <year.length; i++){
+              if(year == ''){
+                  year_empty = '';
+              }else{
+                  year_empty += '<td>' +studentName[i] + '</td>';
+              }
+          };
+          document.getElementsByTagName('p')[0].innerHTML = '<table><tr><th> </th>' + 
+            studentNo_empty + '</tr><tr>' + studentName_empty + '</tr><tr>' 
+                + score_empty +'</tr><tr>' + year_empty+'</tr></table>';
+      }
+    </script>
+</body>
+</html>

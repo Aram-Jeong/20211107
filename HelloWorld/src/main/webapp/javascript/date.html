@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript/date.html</title>
+    <style>
+        td{
+            width: 500px;
+            height: 80px;
+            padding: 1px;
+        }
+        p{
+            padding: 0;
+            margin: 0;
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="number" name="year" id="year">
+    <select name="month" id="month" onchange="showCalendar()">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+    </select>
+    <div id="showContent"></div>
+    <script>
+        let today = new Date();
+        let year = today.getFullYear();
+        let month = today.getMonth(); // 1~12월 0~11
+        createCalendar(year, month); // 오늘날짜 달력 보여주기
+
+        function createCalendar(year, month) { // 오늘을 기준으로 달력을 먼저 보여줌
+            // 기존정보가 있으면 지우고...
+            let content = document.querySelector('#showContent')
+            let cnt = content.children.length;
+            console.log(cnt);
+            for(let i = 0; i < cnt; i++){    
+                console.log(i, ',', content.children[0])    
+                content.children[0].remove(); // 0: 앞에 나왔던 h3, table 지움
+            }
+            
+            // year=2021, month=10
+            let today = new Date();
+            today.setDate(1);
+            today.setFullYear(year);
+            today.setMonth(month);
+            console.log(today);
+            // 첫날: 무슨 요일?, 마지막날?
+            let firstDay, lastDate;
+            firstDay = today.getDay(); // 요일 정보
+            let lastDay = new Date(year, month + 1, 0); // 그냥 month를 하면 지난달 마지막 날이 됨, 0: 1일의 전날이란 의미
+            lastDate = lastDay.getDate();
+            console.log(firstDay, lastDate);
+
+            //1일 위치...마지막 날짜
+            let h3 = document.createElement('h3');
+            h3.innerHTML = year + '년 ' + (month + 1) + '월';
+            document.getElementById('showContent').appendChild(h3);
+            let result = createTable(firstDay, lastDate);
+            document.getElementById('showContent').appendChild(result);
+        }
+
+        function createTable(firstDay, lastDate) {
+            let days = ["Sun", "Mon", "Tue", "Wed", "Thr", "Fri", "Sat"];
+            let table, thead, tbody, tr, td;
+            table = document.createElement('table');
+            table.setAttribute('border', '1')
+            thead = document.createElement('thead');
+            tbody = document.createElement('tbody');
+            table.appendChild(thead);
+            table.appendChild(tbody);
+            // thead
+            tr = document.createElement('tr');
+            thead.appendChild(tr);
+            for (let day of days) {
+                td = document.createElement('th');
+                td.innerHTML = day;
+                tr.appendChild(td);
+            }
+            // tbody
+            tr = document.createElement('tr');
+            tbody.appendChild(tr);
+            for(let i = 0; i <firstDay; i++){
+                td = document.createElement('td');
+                tr.appendChild(td);
+            }
+            for (let i = 1; i <= lastDate; i++) {
+                td = document.createElement('td');
+                td.innerHTML = i;
+                td.onclick = addSchedule;
+                    
+                tr.appendChild(td);
+                if ((i + firstDay) % 7 == 0) {
+                    tr = document.createElement('tr');
+                    tbody.appendChild(tr);
+                }
+            }
+
+            return table;
+        }
+        
+        function addSchedule(){
+            let result = window.prompt('스케줄 입력 >>>')
+                    if(!result){
+                        return;
+                    }
+                    let p = document.createElement('p')
+                    let text = document.createTextNode(result);
+                    p.appendChild(text);
+                    this.appendChild(p);
+        }
+
+      
+        
+
+        
+
+        
+
+        function showCalendar() {
+            let searchYear = document.getElementById('year').value;
+            let searchMonth = document.querySelector('select>option:checked').value;
+            searchYear = parseInt(searchYear);
+            searchMonth = parseInt(searchMonth) - 1;
+            console.log(searchYear, searchMonth);
+            createCalendar(searchYear, searchMonth);
+        }
+
+
+        // let today = new Date();
+        // today = new Date('1971')
+        // today.setFullYear(2021);
+        // today.setMonth(10) // 월은 0부터 시작해서 10을 넣으면 11월
+        // today.setDate(1)
+        // today.setHours(10)
+        // console.log(today.getDay()); //getDay()도 0~6 
+    </script>
+
+</body>
+
+</html>

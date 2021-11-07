@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>xml.html</title>
+</head>
+<body>
+   <script>
+      // Ajax => XMLHttpRequest()
+      let xhtp = new XMLHttpRequest();
+      xhtp.onreadystatechange = function() {
+         if(xhtp.readyState == 4 && xhtp.status == 200){
+           // console.log(xhtp.responseXML);
+            let xmlDoc = xhtp.responseXML;
+            createPage(xmlDoc);
+         }   
+      }
+      xhtp.open('get','../GetMemberServlet'); //오픈하는 방식과 오픈 페이지
+      xhtp.send();
+      
+      // 페이지 작성하는 함수
+      function createpage(xmlData){
+    	  console.log(xmlData);
+    	  let table, tbody, tr, td;
+    	  table = document.createElement('table');
+    	  table.sestAttribute('border', '1');
+    	  tbody = document.createElement('tbody');
+    	  table.appendChild(tbody);
+    	  // data
+    	  let rows = xmlData.getElementsByTagName('row');
+    	  
+    	  // tr 생성
+    	  for(let i = 0; i <rows.length; i++){
+    		  tr = document.createElement('tr');
+    		  // td를 반복 생성
+    		  for(let j = 0; j < 4; j++){
+    		  td = document.createElement('td');
+    		  td.innerText = rows[i].children[j].textContent;
+    		  tr.appendChild(td);
+    		  }
+    		  tbody.appendChild(tr);
+    	  }
+    	  // 최종
+    	  document.getElementById('show').appendChild(table);
+      }
+   </script>
+</body>
+</html>

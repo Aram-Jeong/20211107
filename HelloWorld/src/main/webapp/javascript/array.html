@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript/array.html</title>
+    <style>
+        thead>tr{
+            background-color:lightcoral;
+        }
+        tbody>tr:nth-last-of-type(2n+1){
+            background-color:khaki;
+        }
+        img{
+            width: 150px;
+        }
+        td{
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        var person1 = {
+            name: '홍길동',
+            age: 20,
+            score: 80,
+            image: '1.PNG'
+        };
+        var person2 = {
+            name: '김민수',
+            age: 23,
+            score: 85,
+            image: '2.PNG'
+        }
+        var person3 = {
+            name: '홍성민',
+            age: 25,
+            score: 88,
+            image: '3.PNG'
+        }
+        var objAry = [person1, person2, person3];
+        document.write('<table border="1"><thead><tr><th>이름</th><th>나이</th><th>점수</th><th>춘식</th></tr></thead><tbody>');
+            
+        for (var i = 0; i < objAry.length; i++) {
+            // console.log(`name: ${objAry[i].name}, age: ${objAry[i].age}`);
+            // console.log(`${i+1} 번째 데이터 ------`);
+            document.write('<tr>');
+            for(var field in objAry[i]){
+                // console.log(`${field}, ${objAry[i][field]}`);
+                if(field == 'image'){
+                    document.write('<td><img src="'+ objAry[i][field] +'"></td>');
+                }else{
+                    document.write('<td>' + objAry[i][field] + '</td>');
+                }
+                
+                
+                
+            }
+            document.write('</tr>');
+        }
+        
+        document.write('</tbody></table>');
+    </script>
+
+</body>
+
+</html>

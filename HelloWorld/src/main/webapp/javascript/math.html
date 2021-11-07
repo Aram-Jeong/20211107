@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript/math.html</title>
+    <script>
+        let num = 3.2;
+        let result = Math.sign(num);
+        result = Math.pow(3, 3);
+        result = Math.sqrt(64);
+        result = Math.abs(-94);
+        result = Math.random(); // 0~1
+        let randAry = [];
+        for(let i = 0; i < 10; i++){
+            result = Mate.floor(Math.random() * 6); // 0 ~ 6
+            console.log(result);
+            randAry.push(result);
+        }
+        console.log(randAry);
+
+        let notDupAry = []; // 중복값 넣을 배열
+        randAry.forEach(function(val, ind){
+            let findVal = notDupAry.find(function (a, b){
+                return a == val;
+            });
+            if(findVal == undefined){
+                notDupAry.push(val)
+            }
+        })
+        console.log(notDupAry.sort());
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

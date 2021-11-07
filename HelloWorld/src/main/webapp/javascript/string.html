@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript/string.html</title>
+</head>
+
+<body>
+    <script>
+        var str = 'Hello, World'; // string vs object
+        str[0] = 'T';
+        var result = str.slice(0, 4); // Hell
+        result = str.substring(0, 5); // Hello
+        result = str.substr(5, 3); // , W
+        result = str.slice(-5, -1); // Worl
+
+        let newStr = str.replace('Hello', 'Nice');
+        newStr = str.toUpperCase();
+        console.log(newStr);
+
+        let mins = ['950101-1234567', '970202-2345678', '0101233456789', '[020202 4567890'];
+
+        function checkGendr() {
+            let gen = min.charAt(6);
+            if (isNaN(gen) || gen == '') {
+                gen = mi.charAt(7);
+            }
+            if (gen % 2 == 1) {
+                return 'M';
+            } else {
+                return 'F';
+            }
+
+
+        }
+
+        let gen = checkGendr(mins[0]);
+        console.log(gen);
+        gen = checkGendr(mins[1]);
+        gen = checkGendr(mins[2]);
+        gen = checkGendr(mins[3]);
+    </script>
+
+</body>
+
+</html>

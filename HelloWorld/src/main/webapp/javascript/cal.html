@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        th,td{
+            width: 40px;
+        }
+        td{
+            text-align: right;
+        }
+        tr>th:nth-child(1),
+        tr>td:nth-child(1){
+            color: red;
+        }
+        tr>th:nth-child(7),
+        tr>td:nth-child(7){
+            color: blue;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <script>
+        function getLastDate(month){
+            let mon = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+            return mon[month];
+        }
+        let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat'];
+        // 연월
+        let year, month;
+        year = 2021;
+        month = 12;
+        lastDate = getLastDate(month);
+
+        let today = new Date(year + '-' + month + '-01');
+        let firstDay = today.getDay(); // 일:0, 월:1, 화:2..금:5
+        console.log(firstDay);
+
+        let str = '<h1>' + year + '년 ' + month + '월 </h1>';
+        // 타이틀 부분
+        str += '<table border="1">';
+
+        str += '<thead><tr>';
+        for (let day of days) {
+            str += '<th>' + day + '</th>';
+        }
+        str += '</tr></thead>';
+        // 날짜 나오는 부분
+        str += '<tbody>';
+        str += '<tr>';
+        for (let i = 0; i < firstDay; i++) {
+            str += '<td></td>';
+        }
+        for (let i = 1; i <= lastDate; i++) {
+            str += '<td>' + i + '</td>';
+            if ((i + firstDay) % 7 == 0) {
+                str += '</tr><tr>';
+            }
+        }
+        str += '</tr>';
+        str += '</tbody>';
+        str += '</table>';
+        document.write(str);
+
+        // 마우스 이벤트 처리
+        let tds = document.querySelectorAll('td');
+        for(let td of tds){
+            td.onmouseover = function(){
+                this.style.backgroundColor = 'yellow';
+                this.style.color = 'blue';
+            }
+            td.onmouseout = function(){
+                this.style.backgroundColor = '';
+                this.style.color = '';
+            }
+            
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript/basic.html</title>
+    <script>
+        var v1 = 10; // number
+        v1 = 'hello'; // string
+        v1 = true; // boolean
+        v1 = null; // object
+        v1 = {
+            name: 'hong',
+            age: 20,
+            phone: '010-1111-2222'
+        };
+
+        console.log('hello');
+        console.log('nice');
+        v1 = [10, 20, 30];
+
+        var v2; // undefined
+        v2 = 20;
+        v3 = v1 + v2; // 전역변수
+
+        var v1 = 'hello';
+        console.log(v1);
+
+        function sum(){
+            var n1 = 20; // 지역변수
+            var n2 = 30;
+            var n3 = n1 + n2;
+            console.log(n3);
+        }
+        sum();
+        // cosole.log(n3);
+
+        var thiYearMyAge = 20;
+
+        v1 = '"hello"';
+        v1 = "'hello'";
+        v1 = "20"; // string
+        v2 = 20; // number
+
+        console.log(v1 === v2); // 값과 데이터타입까지 동일한지 비교 -> false
+        console.log(v1 == v2); // 값만 비교 -> true
+        // console.log(v1 = v2); // v2값을 v1에 담고 v1 출력
+
+        // 0, null, '' => false
+        // -10, 2, 'a' => true
+
+        if(v1 === v2){
+            console.log('값이 같습니다.')
+        }else{
+            console.log('값이 다릅니다.')
+        }
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

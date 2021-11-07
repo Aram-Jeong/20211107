@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript/write.html</title>
+</head>
+
+<body>
+    <script>
+        var str = ''
+        var names = ['홍길동', '김민수', '박철민'];
+        document.write('<ul>');
+        for (var name of names) {
+            document.write('<li>Hello, ' + name + '</li>');
+        }
+        document.write('</ul>');
+    </script>
+</body>
+
+</html>

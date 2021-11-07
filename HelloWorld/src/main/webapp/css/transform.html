@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css/transform.html</title>
+    <style>
+        .box{
+            width: 95px;
+            height: 95px;
+            line-height: 95px;
+            color: red;
+            text-align: center;
+            border-radius: 6px;
+        }
+        .original{
+            background-color: rgb(163, 163, 160);
+            margin: 30px;
+            border: 1px dashed gray;
+            float: left;
+        }
+        .child{
+            background-color: greenyellow;
+            cursor: pointer;
+        }
+        .translate{
+            transform: translate(10px, 10px); /* x축, y축으로 각각 이동*/
+        }
+        .scale{
+            transform: scaleX(0.8) scaleY(1.1) /* x축으로 크기를 줄임, y축으로 크게*/ 
+        }
+        .skew{
+            transform: skewY(10deg); /* y축으로 10도 기울어짐..?*/
+        }
+        .rotate{
+            transform: rotate(10deg); /* 시계방향으로 10도 회전 */
+        }
+    </style>
+</head>
+<body>
+    <div class="original box">
+        <div class="child box translate">translate</div>
+    </div>
+    <div class="original box">
+        <div class="child box scale">scale</div>
+    </div>
+   
+    <div class="original box">
+        <div class="child box skew">skew</div>
+    </div>
+    <div class="original box">
+        <div class="child box rotate">rotate</div>
+    </div>
+</body>
+</html>

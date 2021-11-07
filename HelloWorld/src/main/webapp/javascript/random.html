@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript/random.html</title>
+    <style>
+        td{
+            width: 50px;
+            height: 50px;
+            border: 1px black solid;
+            text-align: center;
+            font-size: 20px;
+            color: white;
+        }
+        input{
+            margin: 0;
+            padding: 0;
+            width: 50px;
+            height: 50px;
+            color: white;
+            text-align: center;
+            font-size: 20px;
+        }
+        .selected{
+            color: yellow;
+            background-color: blue;
+            transition: all 2s;
+        }
+        .selected:focus{
+            color: yellow;
+            background-color: blue;
+        }
+        .correct{
+            color: navy;
+            background-color: aqua;
+        }
+        .not_correct{
+            color: white;
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="show"></div>
+
+    <script>
+        let forBy = 4;
+        let pow = Math.pow(forBy, 2);
+        let half_pow = pow / 2;
+
+        // 배열을 임의로 생성
+        let randomAry = [];
+        while (randomAry.length != pow) {
+            let randomVal = Math.floor(Math.random() * pow) + 1; // 1~16까지 임의의 수
+            if (randomAry.indexOf(randomVal) == -1) { // -1은 중복값이 없다는 뜻
+                randomAry.push(randomVal);
+            }
+        }
+        console.log(randomAry);
+
+        let table, tbody, tr, td;
+        table = document.createElement('table');
+        tbody = document.createElement('tbody');
+        table.appendChild(tbody);
+        document.getElementById("show").appendChild(table);
+
+        randomAry.forEach(function (val, ind) {
+            if (ind % forBy == 0) {
+                tr = document.createElement('tr');
+                tbody.appendChild(tr);
+            }
+            td = document.createElement('td');   
+            td.onclick = function(){ 
+                this.children[0].className = 'selected'; // 클릭하면 숫자가 보이도록
+                
+                setTimeout(function(){
+                    let selVal = document.querySelectorAll('.selected'); // 클릭한 두 값이 같으면
+                if(selVal.length != 2){ 
+                    for(let i = 0; i <selVal.length; i++){
+                        selVal[0].className = 'not_correct';
+                    }
+                    return; // 2개가 안 되면 리턴
+                }
+                if(selVal[0].value == selVal[1].value){ // 두 개 클릭하면 비교
+                    selVal[0].className = 'correct';
+                    selVal[1].className = 'correct';
+                    // 총 성공한 input 갯수가 16개...
+                }else{
+                    selVal[0].className = 'not_correct';
+                    selVal[1].className = 'not_correct'; 
+                }
+                }, 2000); // 2000: 2초 지연
+               
+            }
+            let inputVal = val > half_pow ? (val - half_pow) : val; // 9부터의 숫자가 나오지 않도록
+            td.innerHTML = `<input type = "text" value = "${inputVal}">`;
+            tr.appendChild(td);
+        });
+    </script>
+</body>
+
+</html>

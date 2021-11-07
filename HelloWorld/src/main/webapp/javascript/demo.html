@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript/demo.html</title>
+</head>
+
+<body>
+
+    <p id="demo"></p>
+
+    <script>
+        const letters = new Set(["a", "b", "c"]);
+        letters.add('d');
+        letters.add('e');
+        letters.add('e'); // Set클래스는 중복값 추가 안 해줌
+
+        letters.delete('d');
+
+        letters.forEach(function (a, b, c) {
+            console.log(a, b, c);
+        });
+        let result = letters.values();
+        console.log(letters.size);
+
+        for (let val of result) {
+            console.log(val);
+        }
+
+        const fruits = new Map(); // Key : value => entry
+        fruits.set('apple', 500);
+        fruits.set('banana', 400);
+        let price = fruits.get('apple');
+        console.log(price);
+
+        let fruitAry = [];
+        for (let ent of fruits.entries()) { // entry 타입 => ['key', 'val']
+            console.log(ent); // ent: key, value 다 나옴 / ent[0]: Key만 나옴
+            fruitAry.push(ent);
+        }
+        console.log(fruitAry); // [['apple', 500], ['banana',400]]
+
+        fruits.forEach(function (val, key, map) {
+            console.log(val, key, map);
+        });
+
+        let ary = []; //new Array();
+        let obj = {};  // new Object();
+        let reg = /w3schools/i; // new RegExp(); 뒤에 i를 넣으면 대소문자 구분x
+        console.log(typeof reg);
+
+        let text = "Visit W3Schools!";
+        let n = text.search(reg);
+        console.log(n);
+
+        text = "Visit Microsoft!";
+        result = text.replace(/Microsoft/i, "W3Schools");
+        console.log(result);
+    </script>
+</body>
+
+</html>

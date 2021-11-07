@@ -1,0 +1,81 @@
+[{
+        "id": 1,
+        "first_name": "Modestine",
+        "last_name": "Smithe",
+        "email": "msmithe0@nature.com",
+        "gender": "Genderfluid",
+        "ip_address": "123.211.85.16"
+    },
+    {
+        "id": 2,
+        "first_name": "Uta",
+        "last_name": "Rivers",
+        "email": "urivers1@plala.or.jp",
+        "gender": "Polygender",
+        "ip_address": "103.143.222.20"
+    },
+    {
+        "id": 3,
+        "first_name": "Casie",
+        "last_name": "Jiruca",
+        "email": "cjiruca2@chron.com",
+        "gender": "Agender",
+        "ip_address": "49.162.203.46"
+    },
+    {
+        "id": 4,
+        "first_name": "Peggy",
+        "last_name": "Cocozza",
+        "email": "pcocozza3@over-blog.com",
+        "gender": "Polygender",
+        "ip_address": "172.237.235.117"
+    },
+    {
+        "id": 5,
+        "first_name": "Rutter",
+        "last_name": "Gaul",
+        "email": "rgaul4@nifty.com",
+        "gender": "Non-binary",
+        "ip_address": "168.225.231.91"
+    },
+    {
+        "id": 6,
+        "first_name": "Charmion",
+        "last_name": "Beadle",
+        "email": "cbeadle5@japanpost.jp",
+        "gender": "Agender",
+        "ip_address": "50.221.143.43"
+    },
+    {
+        "id": 7,
+        "first_name": "Benton",
+        "last_name": "Searjeant",
+        "email": "bsearjeant6@reuters.com",
+        "gender": "Genderqueer",
+        "ip_address": "161.176.236.15"
+    },
+    {
+        "id": 8,
+        "first_name": "Percy",
+        "last_name": "Curteis",
+        "email": "pcurteis7@paginegialle.it",
+        "gender": "Genderfluid",
+        "ip_address": "121.115.187.151"
+    },
+    {
+        "id": 9,
+        "first_name": "Bamby",
+        "last_name": "Espy",
+        "email": "bespy8@mapy.cz",
+        "gender": "Bigender",
+        "ip_address": "240.195.119.225"
+    },
+    {
+        "id": 10,
+        "first_name": "Kip",
+        "last_name": "Liddard",
+        "email": "kliddard9@cnbc.com",
+        "gender": "Bigender",
+        "ip_address": "49.24.232.143"
+    }
+]

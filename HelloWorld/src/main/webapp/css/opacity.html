@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css/opacity.html</title>
+    <style>
+        div, img{
+            float: left;
+            width: 150px;
+            height: 150px;
+            margin: 30px;
+            background-color: blue;
+            color: white;
+            transition: opacity 2s;
+        }
+        div:hover, img:hover{
+            /* opacity: 0.5; 불투명도 */
+            /* display: none; */
+            /* visibility: hidden; 사라져도 공간은 차지함 */
+        }
+        .menu{
+            background-color: wheat;
+            color: white;
+            width: 200px;
+        }
+        div.menu>ul{
+            list-style-type: none;
+        }
+        div.menu>ul>li{
+            display: inline-block;
+            background-color:peru;
+        }
+    </style>
+</head>
+<body>
+    <div>opacity .5</div>
+    <img src="1.JPG" alt="imgae">
+
+<div class="menu">
+    <ul>
+        <li>Home</li>
+        <li>Main</li>
+        <li>Login</li>
+    </ul>
+</div>
+<ul>
+    <li>apple</li>
+    <li>mango</li>
+    <li>cherry</li>
+</ul>
+</body>
+</html>

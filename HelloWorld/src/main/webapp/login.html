@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>login.html</title>
+<style>
+	#sendFrm{
+		background-color:burlywood;
+		border: 1px solid rgb(231, 166, 25);
+	}
+	input[name='user_id']{
+		margin-left: 16.5px;
+	}
+	input[type='submit']{
+		margin-left: 95px;
+	}
+	div{
+		margin-bottom: 5px;
+	}
+</style>
+</head>
+<body>
+
+	<div id='sendFrm'>
+		<form action='login.jsp' method='get'>
+			<div>
+				<label for='user_id'>아이디</label>
+				<input type='text' name='user_id'>
+			</div>
+			<div>
+				<label for='user_pw'>비밀번호</label>
+				<input type='password' name='user_pw'>
+			</div>
+			<div>
+				<input type='submit' value='로그인'>
+				<input type='reset' value='취소'>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

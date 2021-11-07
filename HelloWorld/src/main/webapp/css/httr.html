@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css/attr.html</title>
+    <style>
+        a{
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        a[target='_self']{
+            background-color:lightskyblue;
+        }
+        p[text]{color:red;}
+        p[text="red"]{color: yellow; background-color: purple;}
+        p[text~="bb"]{color: yellow; background-color: green;}
+        p[text|="a1"]{color: yellow; background-color: blue;}
+    </style>
+</head>
+<body>
+    <a href="https://www.daum.net" target="_blank">다음</a>
+    <a href="https://www.ediya.com" target="_self">이디야</a>
+    
+    <h2>Text Selector</h2>
+    <p text="hello">모든 텍스트</p>
+    <p text="red">텍스트 매칭 속성</p>
+    <p text="aa bb cc">리스트 매칭 속성</p>
+    <p text="a1-a2-a3">범위 텍스트 매칭 속성</p>
+    <p text="img/pic.jpg">텍스트 시작 매칭 속성</p>
+    <p text="img/pic.png">텍스트 끝 매칭 속성</p>
+    <p text="Seongyoung Hong">텍스트 패턴 매칭 속성</p>
+
+</body>
+</html>

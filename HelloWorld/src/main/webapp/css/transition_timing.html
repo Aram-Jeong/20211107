@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css/transition_timing.html</title>
+    <style>
+        div{
+            font: bold 16px;
+            color: white;
+            text-align: center;
+            width: 100px;
+            height: 50px;
+            background-color: red;
+            margin-bottom: 10px;
+            transition: width 2s;
+            
+        }
+        div:nth-last-child(1){
+            transition-timing-function: ease;
+        }
+        div:nth-last-child(2){
+            transition-timing-function: linear;
+        }
+        div:nth-last-child(3){
+            transition-timing-function: ease-in;
+        }
+        div:nth-last-child(4){
+            transition-timing-function: ease-out;
+        }
+        div:nth-last-child(5){
+            transition-timing-function: ease-in-out;
+        }
+        div:hover{
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div>ease</div>
+    <div>linear</div> <!--처음부터 끝까지 동일한 속도-->
+    <div>ease-in</div>  <!--처음엔 천천히 그 이후 동일한 속도-->
+    <div>ease-out</div>
+    <div>ease-in-out</div>
+    
+</body>
+</html>

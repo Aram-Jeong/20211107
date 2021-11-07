@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>get.html</title>
+<style>
+	div {
+		border: 1px solid red;
+		width: 300px;
+	}
+	label {
+		border: 2px dotted blue;
+		width: 50px;
+	}
+	
+</style>
+</head>
+<body>
+	<section>
+		<article>
+			<form action='get.jsp' method='get'>
+				<div>
+					<label for='user_id'>아이디</label>
+					<input type='text' id='user_id' name='user_id' value='user1'>
+				</div>
+				<div>
+					<label for='user_pw'>비밀번호</label>
+					<input type='password' id='user_pw' name='user_pw'>
+				</div>
+				<div>
+					<label for='birth'>생년월일</label>
+					<input type='date' id='birth' name='birth'>
+				</div>
+				<div>
+					<label for='men'>남자</label>
+					<input type='radio' id='men' name='gender' checked value='men'>
+					<label for='women'>여자</label>
+					<input type='radio' id='women' name='gender' value='women'>
+				</div>
+				<div>
+					<input type='submit' value='회원가입'>
+					<input type='reset' value='취소'>
+				</div>
+			</form>
+		</article>
+	</section>
+</body>
+</html>

@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>javascript/memberJson.html</title>
+<style>
+* {
+	box-sizing: border-box;
+}
+
+#addrow {
+	height: 210px;
+	width: 500px;
+	
+}
+
+#addrow>.control {
+	float: left;
+	width: 350px;
+	border: 2px dashed orange;
+	height: 200px;
+	margin: 3px;
+	padding-left: 15px;
+	
+
+}
+#addrow>.control>label{
+	display: inline-block;
+	width: 75px;
+	padding-top: 8px;
+}
+#addrow>.btn {
+	float: left;
+	width: 100px;
+	height: 200px;
+	margin-top:3px;
+	border: 2px dashed orange;
+	
+}
+#addrow>.btn>button{
+	display: inline-block;
+	width: 75px;
+	margin: 12px;
+	background-color: rgb(253, 244, 206);
+	border: 1px solid orange;
+	color: orange;
+	font-weight: bold;
+}
+
+#show {
+	clear: both; /* clear: float 취소해줌, both는 오른쪽 왼쪽 둘 다 취소*/
+	float: left;
+	width: 800px;
+	padding-right: 3px;
+}
+
+#show table{
+	width: 800px;
+}
+
+#content {
+	float: left;
+	width: 368px;
+	height: 140px;
+	margin-left: 30px;
+	
+}
+
+.row {
+	border: 1px solid orange;
+}
+
+.row>.title {
+	display: inline-block;
+    width: 115px;
+    background-color: wheat;
+	text-transform: uppercase;
+	
+	
+}
+
+.row>.content {
+	display: inline-block;
+	width: 250px;
+	background-color: rgb(253, 244, 206);
+}
+
+thead>tr>th:nth-of-type(3n+1):not(nth-of-type(1)) {
+	width: 210px;
+}
+
+tbody button {
+	width: 30x;
+	margin-left: 25px;
+}
+.pagination {
+  display: inline-block;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+  border: 1px solid #ddd;
+  margin: 0 4px;
+}
+
+.pagination a.active {
+  background-color: wheat;
+  color: orange;
+  font-weight: bold;
+  border: 1px solid orange;
+ 
+}
+
+.pagination a:hover:not(.active) {
+background-color: #ddd;
+}
+
+</style>
+</head>
+<body>
+	<div id="addrow">
+		<div class="control">
+			<label for="user_id">아이디</label><input id="user_id" type="text" value="user100"><br>
+			<label for="user_name">이름</label><input id="user_name" type="text" value="아무개"><br>
+			<label for="user_birth">생년월일</label><input id="user_birth" type="date" value="1995-01-01"><br>
+			<label for="user_phone">연락처</label><input id="user_phone" type="text" value="010-1234-5678"><br>
+			<label for="user_addr">주소</label><input id="user_addr" type="text" value="대구 중구 100"><br>
+			<label for="user_men">남</label><input name="gender" id="user_men" type="radio" value="men" checked>
+			<label for="user_women">여</label><input name="gender" id="user_women" type="radio" value="women">
+			<label for="user_all">모두</label><input name="gender" id="user_all" type="radio" value="all">
+		</div>
+		<div class="btn">
+			<button onclick="addMember()">등록</button>
+			<button onclick="modMember()">수정</button>
+			<button onclick="delMember()">선택삭제</button>
+			<button onclick="fndMember()">조회</button>
+		</div>
+	</div>
+	<div class="pagination"></div>
+	<div id="show"></div>
+	<div id="content"></div>
+
+	<script>
+
+	// 1) 화면 초기화 보여줄 리스트 출력.
+	// Ajax => new XMLHttpRequest();
+	let xhtp = new XMLHttpRequest();
+	xhtp.onreadystatechange = function () {
+		if (xhtp.readyState == 4 && xhtp.status == 200) {
+			// 회원 리스트 화면에 보여주기.
+			let data = JSON.parse(xhtp.responseText);
+			showMemberList(data);
+			// 첫 번째 데이터
+			getUserInfo(data[0].userId);
+		}
+	}
+	xhtp.open('get', '../GetMemberJsonServ');
+	xhtp.send();
+	
+	// 1-1) 전체 페이지 갯수 보여주기
+	let req = new XMLHttpRequest();
+	req.open('get', '../GetMemberPageServlet?cmd=cnt');
+	req.send();
+	req.onload = showListPerPage;
+	
+	// 1-2) 화면에 페이지 보여주는 콜백
+	function showListPerPage(){
+		let parent = document.querySelector('.pagination');
+		let result = JSON.parse(this.responseText);
+		// 페이지 계산해주기
+		// console.log(result.totalCnt); // {"totalCnt: 96"}
+		let pageCnt = result.totalCnt / 10; // 9.6
+		pageCnt = Math.ceil(pageCnt); // ceil은 10으로 올림해줌
+		// 페이지 화면에 그리기
+		for(let i = -1; i <= pageCnt + 2; i++){
+			let targetPage = i;
+			let a = document.createElement('a');
+			a.href = `javascript:void(0)`;
+			if(i == -1){
+				a.textContent = '<<'; 
+				targetPage = 1;
+			}else if(i == 0){
+				a.textContent = '<'; 
+			}else if(i == pageCnt + 1){
+				a.textContent = '>'; 
+			}else if(i == pageCnt +2){
+				a.textContent = '>>';
+			}else{
+				a.textContent = i; // <a href="">3</a> 숫자는 페이지 번호
+			}
+			a.onclick = function(){
+				currentPage = a.textContent;
+				console.log('prev', currentPage)
+				if (currentPage == '>' || currentPage == '<') {
+					if (currentPage == '<') {
+						currentPage = localStorage.getItem('prevPage')
+					} else if (currentPage == '>') {
+						currentPage = localStorage.getItem('nextPage')
+					}
+					console.log('currentPage', currentPage);
+				}else if(currentPage == '<<'){
+					currentPage = 1;
+				}else if(currentPage == '>>'){
+					currentPage = pageCnt;
+				}
+				prevPage = currentPage == 1 ? 1 : currentPage - 1;
+				nextPage = currentPage == pageCnt ? pageCnt : parseInt(currentPage) + 1;
+				localStorage.setItem('prevPage', prevPage);
+				localStorage.setItem('nextPage', nextPage);
+				console.log('next', currentPage)
+				let act = document.querySelectorAll('.pagination .active');
+				for(let j=0; j <act.length; j++){
+					act[j].className = null;
+				}
+				this.className = 'active';
+				let xhttp = new XMLHttpRequest();
+				xhttp.open('get','../GetMemberPageServlet?cmd=list&page=' + i);
+				xhttp.send();
+				xhttp.onload = fndMemberCallBack;
+			}
+			parent.appendChild(a);
+		}
+	}
+
+	// 타이틀 * MemberVO의 필드값과 동일
+	const titles = ['userId', 'userName', 'gender', 'birthDate', 'phone', 'address'];
+
+	// 2) 헤더정보
+	function getHeader() {
+		let thead = document.createElement('thead');
+		let tr = document.createElement('tr');
+		thead.appendChild(tr);
+		// 체크박스 추가
+		let td = document.createElement('th');
+		let checkBox = document.createElement('input'); // 인풋타임 엘리먼트를 만들어서
+		checkBox.setAttribute('type', 'checkbox'); // 그 안에 체크박스 타입
+		checkBox.onchange = function(){
+			// 전체선택 기능구현 true / false
+			console.log(this.checked);
+			// 데이터영역 체크박스 checked = true;
+			let checks = document.querySelectorAll('tbody>tr>td>input');
+			for(let i = 0, cnt = checks.length; i < cnt; i++){
+				checks[i].checked = this.checked;
+			}
+		}
+		td.appendChild(checkBox);
+		tr.appendChild(td);
+		for (let title of titles) {
+			let td = document.createElement('th');
+			td.textContent = title.toUpperCase();
+			tr.appendChild(td);
+		}
+		// 추가 칼럼. X
+		td = document.createElement('th');
+		td.textContent = 'DELETE';
+		tr.appendChild(td);
+		return thead;
+	}
+
+	// 3) 데이터 정보.
+	function getContent(data) {
+		let tbody = document.createElement('tbody');
+		for (let row of data) {
+			tbody.appendChild(getRow(row));
+		}
+		return tbody;
+	}
+
+	// 4) 한건씩 처리.
+	function getRow(row) { // {userId:?, userName:?, address:?}
+		let tr = document.createElement('tr');
+		tr.id = row.userId; // row에 userId를 담는 이유는 유니크하게 아이디값 가져오려고
+		let td = document.createElement('td');
+		let checkBox = document.createElement('input');
+		checkBox.setAttribute('type','checkbox');
+		checkBox.onchange = function(){
+			// header 선택 => body 선택 하나라도 해제되면 false
+			let checks = document.querySelectorAll('tbody>tr>tr>input');
+			for(let i = 0, cnt = checks.length; i<cnt; i++){
+				if(checks[i].checked == false){
+					// header쪽 false
+					document.querySelector('thead>tr>th>input[type="checkbox"]').checked = false;
+					return; // function 계속 돌 필요 없이 리턴해서 끝을 냄
+				}
+				
+			}
+			// header 쪽 true;
+			document.querySelector('thead>tr>th>input[type="checkbox"]').checked = true;
+		}
+		td.appendChild(checkBox);
+		tr.appendChild(td);
+		
+		for (let title of titles) {
+			let td = document.createElement('td');
+			if(title == 'userId'){
+				td.onclick = function(){
+					getUserInfo(row['userId']);
+				}
+			}else if(title == 'userName'){
+				td.onclick = function(){
+					setUserInfo(row['userId']);
+				}
+			}
+			let content = row[title];
+			if (title == 'birthDate' && content !== undefined) {
+				content = content.substring(0, 10);
+			
+			}
+			td.textContent = content;
+			tr.appendChild(td);
+		}
+		// 추가 칼럼.
+		td = document.createElement('td');
+		td.innerHTML = `<button onclick="delMem('${row.userId}')">삭제</button>`; //delMem('user1')처럼 되도록
+		tr.appendChild(td);
+		return tr;
+	
+	}
+
+	// 5) ajax 호출 후 실행될 콜백함수.
+	function showMemberList(data) {
+		let table = document.createElement('table');
+		table.setAttribute('border', '1')
+		table.appendChild(getHeader());
+		table.appendChild(getContent(data));
+
+		let cap = document.createElement('caption');
+		cap.appendChild(document.createTextNode('회원리스트'))
+		table.appendChild(cap);
+		
+		document.getElementById('show').appendChild(table);
+	}
+
+	// 6) 이벤트 발생 시 실행할 함수.
+	function getUserInfo(id) {
+		let xhtp = new XMLHttpRequest();
+		xhtp.onreadystatechange = function () {
+			if (xhtp.readyState == 4 && xhtp.status == 200) {
+				let data = JSON.parse(xhtp.responseText);
+				showDetail(data);
+			}
+		}
+		xhtp.open('get', '../GetMemberOneJsonServ?id=' + id);
+		xhtp.send();
+	}
+
+	// 7) 상세 화면.
+	function showDetail(row) {
+		// 원래 요소가 있으면 요소를 지워주세요.
+		let contentElm = document.querySelector('#content');
+		let cnt = contentElm.children.length;
+		for (let i = 0; i < cnt; i++) {
+			contentElm.children[0].remove();
+		}
+		// 상세화면을 생성해주는 부분.
+		for (let title of titles) {
+			let rowDiv = document.createElement('div');
+			rowDiv.className = 'row';
+
+			let titleDiv = document.createElement('div');
+			let contentDiv = document.createElement('div');
+			rowDiv.append(titleDiv, contentDiv);
+
+			titleDiv.className = 'title';
+			titleDiv.textContent = title;
+
+			contentDiv.className = 'content';
+			contentDiv.textContent = row[title];
+
+			document.getElementById('content').appendChild(rowDiv);
+		}
+	}
+		// 8) 사용자 등록
+		function addMember(){
+			// 입렵화면의 값을 변수에 담아주기
+			let id = document.getElementById('user_id').value;
+			let name = document.getElementById('user_name').value;
+			let birth = document.getElementById('user_birth').value;
+			let addr = document.getElementById('user_addr').value;
+			let phone = document.getElementById('user_phone').value;
+			let gen = document.querySelector('input[name="gender"]:checked').value;
+			let param = `u_i=${id}&u_n=${name}&u_b=${birth}&u_a=${addr}&u_p=${phone}&u_g=${gen}`; // 파라메타 이름과 맞춰서 넘기기 위함
+			
+			// ajax 호출
+			let xhtp = new XMLHttpRequest();
+			xhtp.open('post', '../GetMemberJsonServ'); 
+			xhtp.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // 포스트 방식은 헤더정보 입력해야 함
+			xhtp.send(param);
+			// db 입력 후 처리
+			xhtp.onload = function(){ // 페이지가 다 로딩되면 실행
+				let result = JSON.parse(xhtp.responseText); // {retCode:'OK', userId:?, userName:?}
+				console.log(result);
+				if(result.retCode == "OK"){ //retCode=return code
+					window.alert(`id: ${result.userId}를 등록했습니다.`);
+					let tbody = document.querySelector('table>tbody');
+					tbody.appendChild(getRow(result));  // tbody 밑에 tr 붙여주자
+				}else{
+					window.alert(result.retMsg); // GetMemberJsonServ에 만든 에러 메시지 뜰 거임
+				}
+				
+			}
+		}
+		// 9) 삭제 기능
+		function delMem(id){
+			console.log(id);
+			// id를 가지고 db처리해주는 서블릿
+			// 정상처리 후 화면에서도 삭제
+			let xhtp = new XMLHttpRequest();
+			xhtp.open('get', '../ModifyMemberServlet?id=' + id);
+			xhtp.send();
+			xhtp.onload = delMemCallBack;
+		}
+		// 10) 삭제 후 콜백함수
+		function delMemCallBack(){
+			console.log(this.responseText); // 결과값
+			let result = JSON.parse(this.responseText);
+			if(result.retCode == "OK"){
+				window.alert(`${result.userId} 삭제 완료!`);
+				document.getElementById(result.userId).remove(); 
+			}else if(result.retCode == "NG"){
+				window.alert(`Error! ${result.retMsg}`);
+			}else{
+				console.log('else situation')
+			}
+		}
+		
+		// 11) 화면수정
+		function setUserInfo(id) {
+			let xhtp = new XMLHttpRequest();
+			xhtp.onload = setDetailCallBack;
+			xhtp.open('get', '../GetMemberOneJsonServ?id=' + id);
+			xhtp.send();
+			
+	} 	// 12) 화면수정 콜백함수
+		function setDetailCallBack(){
+			let result = JSON.parse(this.responseText); // {userId: ?, userName: ?}
+			document.getElementById('user_id').value = result.userId;
+			
+			// 데이터 값이 없으면 undefined 보여지므로 '' 또는 값을 넣어주도록
+			document.getElementById('user_name').value = result.userName == undefined ? '' : result.userName;
+			document.getElementById('user_phone').value = result.phone == undefined ? '' : result.phone;
+			document.getElementById('user_addr').value = result.address == undefined ? '' : result.address;
+			// 날짜표시부분 ....년:월:일 시:분:초 => 년:월:일
+			if(result.birthDate != undefined && result.birthDate != '')
+				document.getElementById('user_birth').value 
+				= result.birthDate.substring(0,10);
+			else
+				document.getElementById('user_birth').value 
+				= result.birthDate == undefined ? '' : result.birthDate;
+			
+			// radio 버튼을 찾아서 value가 조회된 결과값 result.gender 같은 요소의 checked를 변경하겠음
+			let genders = document.querySelectorAll('.control>input[type="radio"]');
+			for(let i = 0; i < genders.length; i++){
+				if(genders[i].value == result.gender){
+					genders[i].checked = true;
+				}
+			}
+		}
+		
+		// 13) 데이터 수정 처리
+		function modMember(){
+			// 입렵화면의 값을 변수에 담아주기
+			let id = document.getElementById('user_id').value;
+			let name = document.getElementById('user_name').value;
+			let birth = document.getElementById('user_birth').value;
+			let addr = document.getElementById('user_addr').value;
+			let phone = document.getElementById('user_phone').value;
+			let gen = document.querySelector('input[name="gender"]:checked').value;
+			let param = `id=${id}&nm=${name}&br_date=${birth}&ad=${addr}&ph=${phone}&gn=${gen}`; // 파라메타 이름과 맞춰서 넘기기 위함
+			
+			// ajax 호출
+			let xhtp = new XMLHttpRequest();
+			xhtp.open('post', '../ModifyMemberServlet'); 
+			xhtp.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); // 포스트 방식은 헤더정보 입력해야 함
+			xhtp.send(param);
+			xhtp.onload = modMemberCallBack; // 결과값 받아오기
+		}
+		
+		// 14) 수정처리 콜백
+		function modMemberCallBack(){
+			let result = JSON.parse(this.responseText);
+			console.log(result);
+			let selectedTr = document.getElementById(result.retVal.userId);
+			// selectedTr = document.querySelector(`${result.retVal.userId}`);
+			// console.log(selectedTr);
+			// 화면에 있는 필드의 순서와 타이틀에 있는 순서가 같아서 반복처리
+			for(let i = 1; i < titles.length; i++){
+				selectedTr.children[i + 1].textContent = result.retVal[titles[i]]; //children[1]은 <td>이름</td>
+			
+			}
+		}
+		
+		// 15) 선택 삭제
+		function delMember(){
+			let selectedInput = document.querySelectorAll('tbody>tr>td>input:checked');
+			let cnt = selectedInput.length; // 선택된 갯수를 cnt에 넣는다
+			// 선택된 요소를 반복적으로 삭제 처리
+			for(let i = 0; i < cnt; i++){
+				let searchId = selectedInput[i].parentNode.parentNode.id;
+				selectedDelMem(searchId);
+	
+			}
+			
+		}
+		// 16) 선택 삭제 아작스
+		function selectedDelMem(id){
+			console.log(id);
+			// id를 가지고 db처리해주는 서블릿
+			// 정상처리 후 화면에서도 삭제
+			let xhtp = new XMLHttpRequest();
+			xhtp.open('get', '../ModifyMemberServlet?id=' + id);
+			xhtp.send();
+			xhtp.onload = selectedDelMemCallBack;
+		}
+		
+		// 17) 선택 삭제 콜백
+		function selectedDelMemCallBack(){
+				console.log(this.responseText); // 결과값
+				let result = JSON.parse(this.responseText);
+				if(result.retCode == "OK"){
+					document.getElementById(result.userId).remove(); 
+				}else if(result.retCode == "NG"){
+					window.alert(`에러메시지: ${result.retMsg}`);	
+				}else{
+					console.log('else situation')
+				}
+		}
+		
+		// 18) 조건 조회
+		function fndMember(){
+			let id = document.getElementById('user_id').value;
+			let name = document.getElementById('user_name').value;
+			let addr = document.getElementById('user_addr').value;
+			let phone = document.getElementById('user_phone').value;
+			let gen = document.querySelector('input[name="gender"]:checked').value;
+			let url = `../SearchMemberServlet?id=${id}&nm=${name}&ad=${addr}&ph=${phone}&gn=${gen}`; // 파라메타 이름과 맞춰서 넘기기 위함
+			
+			// ajax 호출
+			let xhtp = new XMLHttpRequest();
+			xhtp.open('get', url); 
+			xhtp.send();
+			xhtp.onload = fndMemberCallBack; // 결과값 받아오기
+		}
+		
+		// 19) 조회 콜백
+		function fndMemberCallBack(){
+			// console.log(this.responseText);
+			let table = document.querySelectorAll('#show>table');
+			for(let i = 0; i < table.length; i++){
+				table[0].remove();
+			}
+			let data = JSON.parse(this.responseText);
+			showMemberList(data);
+			getUserInfo(data[0].userId);
+		}
+		
+		// post 방식 요청
+		//	xhtp.open('post', '../GetMemberJsonServ');
+		//	xhtp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		//	xhtp.send("id=user4&name=Hong&addr=daegu171");
+	</script>
+
+</body>
+</html>

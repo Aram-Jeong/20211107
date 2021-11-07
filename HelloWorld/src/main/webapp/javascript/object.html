@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript/object.html</title>
+</head>
+<body>
+    <script>
+        var obj = {
+            id: 'admin',
+            name: '관리자',
+            point: 90
+        }
+
+        console.log('id는 ' + obj.id);
+        console.log('name은 ' + obj['name']);
+        var field = 'point';
+        console.log(field + '는 ' + obj[field]);
+
+        console.log(`id는 ${obj.id}, name은 ${obj['name']}, point는 ${obj['point']}`);
+
+        var numAry = ['홍길동', '김민수', '박시현'];
+        for(var i = 0; i < numAry.length; i++){
+            console.log(i + 1 + '번째 요소 => ' + numAry[i]);
+        }
+        // 확장된 for (자바의 String str : numAry)
+        for(var val of numAry){
+            console.log(val);
+        }
+        // object일 경우에도 field의 갯수만큼 반복
+        for(var field in obj){
+            console.log(`field: ${field}, val: ${obj[field]}`);
+        }
+    </script>
+    
+</body>
+</html>
